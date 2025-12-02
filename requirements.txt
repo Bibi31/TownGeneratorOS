@@ -1,0 +1,11 @@
+# Medieval Fantasy City Generator - Python Port
+# Dependencies for the Python version
+
+# Graphics/UI (choose one based on preference)
+pygame>=2.5.0
+# OR: pyglet>=2.0.0
+# OR: tkinter (built-in)
+
+# Utilities
+numpy>=1.24.0
+Pillow>=10.0.0
