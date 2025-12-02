@@ -278,9 +278,21 @@ class Polygon:
         v1 = p2.subtract(p1)
         v2 = p3.subtract(p2)
         
-        cos = v0.dot(v1) / v0.length / v1.length
+        # Avoid division by zero
+        len0 = v0.length
+        len1 = v1.length
+        if len0 == 0 or len1 == 0:
+            return
+        
+        cos = v0.dot(v1) / len0 / len1
         z = v0.x * v1.y - v0.y * v1.x
-        t = d / math.sqrt(1 - cos * cos)
+        
+        # Avoid sqrt of negative and division by zero
+        sin_sq = 1 - cos * cos
+        if sin_sq <= 0:
+            return
+        
+        t = d / math.sqrt(sin_sq)
         if z > 0:
             t = min(t, v0.length * 0.99)
         else:
@@ -288,9 +300,19 @@ class Polygon:
         t *= sign(z)
         self.vertices[i1] = p1.subtract(v0.norm(t))
         
-        cos = v1.dot(v2) / v1.length / v2.length
+        # Avoid division by zero for second calculation
+        len2 = v2.length
+        if len1 == 0 or len2 == 0:
+            return
+        
+        cos = v1.dot(v2) / len1 / len2
         z = v1.x * v2.y - v1.y * v2.x
-        t = d / math.sqrt(1 - cos * cos)
+        
+        sin_sq = 1 - cos * cos
+        if sin_sq <= 0:
+            return
+        
+        t = d / math.sqrt(sin_sq)
         if z > 0:
             t = min(t, v2.length * 0.99)
         else:

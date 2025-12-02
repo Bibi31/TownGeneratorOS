@@ -35,9 +35,10 @@ class MarkovChain:
         state: Optional[T] = None
         while True:
             state = self.get_next(state)
-            result.append(state)
             if self.is_terminal(state):
                 break
+            if state is not None:
+                result.append(state)
         
         return result
     

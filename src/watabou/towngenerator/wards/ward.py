@@ -44,7 +44,8 @@ class Ward:
                 
                 if not on_street:
                     for street in self.model.arteries:
-                        if street.contains(v0) and street.contains(v1):
+                        # arteries are List[List[Point]], check if points are in the street
+                        if isinstance(street, list) and v0 in street and v1 in street:
                             on_street = True
                             break
                 
@@ -57,8 +58,7 @@ class Ward:
         
         self.patch.shape.for_edge(calculate_inset)
         
-        if self.patch.shape.is_convex():
-            return self.patch.shape.shrink_eq(inset_dist[0]) if len(set(inset_dist)) == 1 else self.patch.shape
-        else:
-            # Buffer method not fully implemented in polygon.py yet
-            return self.patch.shape
+        # Note: Full shrink/buffer implementation pending
+        # For now, return the original shape
+        # TODO: Implement proper inset with varying distances
+        return self.patch.shape
